@@ -92,6 +92,10 @@ public class BinaryTree<T extends Comparable<T>> {
 		else return searchRecursive(current.getRight(), key);
 	}
 
+	/**
+	 * Prints tree according to the order of DFS, left-first
+	 * @param current
+	 */
 	private void preOrder(TreeNode<T> current) {
 		if(current != null) {
 			System.out.print(current + " ");
@@ -99,6 +103,7 @@ public class BinaryTree<T extends Comparable<T>> {
 			preOrder(current.getRight());
 		}
 	}
+
 
 	private void inOrder(TreeNode<T> current) {
 		if(current != null) {
@@ -116,12 +121,16 @@ public class BinaryTree<T extends Comparable<T>> {
 		}
 	}
 
+	/**
+	 * Print a tree per level.
+	 */
 	public void levelOrder() {
 		Queue<TreeNode<T>> queue = new LinkedList<>();
 		queue.add(root);
 		levelOrder(queue);
 
 	}
+
 
 	private void levelOrder(Queue<TreeNode<T>> queue) {
 		TreeNode<T> temp = queue.remove();
@@ -134,6 +143,10 @@ public class BinaryTree<T extends Comparable<T>> {
 		levelOrder(queue);
 	}
 
+	/**
+	 * Method to remove node from a tree
+	 * @param key is the value being removed from tree. If there are multiple, only the first instance is returned
+	 */
 	public void remove(T key) {
 		remove(root, key); //Start at root, as always
 	}
@@ -192,9 +205,22 @@ public class BinaryTree<T extends Comparable<T>> {
 		return currentRoot.getData();
 	}
 
+	/**
+	 * Find parent of a node
+	 * @param key is a child node
+	 * @return the parent of child node
+	 */
 	public TreeNode<T> getParent(T key) {
 		return getParent(null, root, key);
 	}
+
+	/**
+	 * Recursive method to find parent of a node
+	 * @param parent is the parent of the current node
+	 * @param current is a child node being processed
+	 * @param key is the value of a child node that is being looked for
+	 * @return the parent of the child node. Returns null if the child does not exist, or if child node is root
+	 */
 	private TreeNode<T> getParent(TreeNode<T> parent, TreeNode<T> current, T key) {
 		if(current == null) {
 			return null;
