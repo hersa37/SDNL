@@ -10,6 +10,15 @@ public class TreeNode <T extends Comparable<T>> implements Comparable<TreeNode<T
 		this.data = data;
 	}
 
+	public TreeNode(T data, TreeNode<T> treeNode) {
+		this.data = data;
+		if(this.compareTo(treeNode) <= 0) {
+			this.left = treeNode;
+		} else {
+			this.right = treeNode;
+		}
+	}
+
 	public void setLeft(TreeNode<T> node) {
 		left = node;
 	}
