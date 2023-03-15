@@ -208,7 +208,21 @@ public class BinaryTree<T extends Comparable<T>> {
 	 * @return the parent of child node
 	 */
 	public TreeNode<T> getParent(T key) {
-		return getParent(null, root, key);
+		TreeNode<T> parent = null;
+		TreeNode<T> current = root;
+		while(current != null) {
+			if(key.compareTo(current.getData()) == 0) {
+				return parent;
+			}
+			if(key.compareTo(current.getData()) < 0) {
+				parent = current;
+				current = current.getLeft();
+			} else {
+				parent = current;
+				current = current.getRight();
+			}
+		}
+		return null;
 	}
 
 	/**
