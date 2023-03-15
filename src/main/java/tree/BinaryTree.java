@@ -1,9 +1,6 @@
 package tree;
 
-import com.sun.source.tree.Tree;
-
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class BinaryTree<T extends Comparable<T>> {
