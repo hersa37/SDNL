@@ -1,0 +1,32 @@
+@startuml
+
+class TreeNode <T> {
+- data : T
+- left : TreeNode
+- right : TreeNode
+--
++TreeNode()
++TreeNode(T)
++setLeft(TreeNode<T>) : void
++setRight(TreeNode<T>) : void
++getLeft() : TreeNode<T>
++getRight() : TreeNode<T>
+}
+
+class BinaryTree {
+- root : TreeNode
+--
++Tree()
++Tree(T)
++setRoot(T) : void
++getRoot() : TreeNode
++add(T) : void
+-addRecursive(TreeNode<T>, T) : TreeNode<T>
++search(T) : TreeNode<T>
+-searchRecursive(TreeNode<T>, T) : TreeNode<T>
++print() : void
+-print(T) : void
+}
+
+BinaryTree *-- TreeNode
+@enduml
