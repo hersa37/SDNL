@@ -11,6 +11,7 @@ public class BinaryTree<T extends Comparable<T>> {
 	public BinaryTree() {
 
 	}
+
 	public BinaryTree(T rootData) {
 		this.root = new TreeNode<>(rootData);
 	}
@@ -28,31 +29,32 @@ public class BinaryTree<T extends Comparable<T>> {
 	}
 
 	public void add(T[] datas) {
-		for(T data : datas) {
+		for (T data : datas) {
 			root = addRecursion(data, root);
 		}
 	}
+
 	private TreeNode<T> addRecursion(T data, TreeNode<T> current) {
-		if(current == null) {
+		if (current == null) {
 			return new TreeNode<>(data);
 		}
-		if(current.getData().compareTo(data) >= 0) {
-			current.setLeft(addRecursion(data,current.getLeft()));
+		if (current.getData().compareTo(data) >= 0) {
+			current.setLeft(addRecursion(data, current.getLeft()));
 		} else {
 			current.setRight(addRecursion(data, current.getRight()));
 		}
 		return current;
 	}
 
-	public void print(){
+	public void print() {
 		print(root, 0);
 	}
 
-	private void printRecursive(TreeNode<T> current,int depth) {
-		if(current == null) {
+	private void printRecursive(TreeNode<T> current, int depth) {
+		if (current == null) {
 			return;
 		}
-		for(int i = 0; i < depth; i++) {
+		for (int i = 0; i < depth; i++) {
 			System.out.print("\t");
 		}
 		System.out.print(" " + current);
@@ -63,39 +65,40 @@ public class BinaryTree<T extends Comparable<T>> {
 
 
 	private void print(TreeNode<T> current, int depth) {
-		if(current == null) {
+		if (current == null) {
 			return;
 		}
 		for (int i = 0; i < depth; i++) {
 			System.out.print("\t");
 		}
-		if(depth != 0) {
+		if (depth != 0) {
 			System.out.print("\u2514\u2500");
 		}
 		System.out.println(current.getData());
 		print(current.getLeft(), depth + 1);
-		print(current.getRight(), depth +1);
+		print(current.getRight(), depth + 1);
 	}
 
 	public TreeNode<T> getNode(T key) {
 		return searchRecursive(root, key);
 	}
+
 	private TreeNode<T> searchRecursive(TreeNode<T> current, T key) {
-		if(current == null || key.compareTo(current.getData()) == 0) {
+		if (current == null || key.compareTo(current.getData()) == 0) {
 			return current;
 		}
-		if(key.compareTo(current.getData()) < 0) {
+		if (key.compareTo(current.getData()) < 0) {
 			return searchRecursive(current.getLeft(), key);
-		}
-		else return searchRecursive(current.getRight(), key);
+		} else return searchRecursive(current.getRight(), key);
 	}
 
 	/**
 	 * Prints tree according to the order of DFS, left-first
+	 *
 	 * @param current
 	 */
 	private void preOrder(TreeNode<T> current) {
-		if(current != null) {
+		if (current != null) {
 			System.out.print(current + " ");
 			preOrder(current.getLeft());
 			preOrder(current.getRight());
@@ -104,7 +107,7 @@ public class BinaryTree<T extends Comparable<T>> {
 
 
 	private void inOrder(TreeNode<T> current) {
-		if(current != null) {
+		if (current != null) {
 			inOrder(current.getLeft());
 			System.out.print(current + " ");
 			inOrder(current.getRight());
@@ -112,7 +115,7 @@ public class BinaryTree<T extends Comparable<T>> {
 	}
 
 	private void postOrder(TreeNode<T> current) {
-		if(current != null) {
+		if (current != null) {
 			postOrder(current.getLeft());
 			postOrder(current.getRight());
 			System.out.print(current + " ");
@@ -132,7 +135,7 @@ public class BinaryTree<T extends Comparable<T>> {
 
 	private void levelOrder(Queue<TreeNode<T>> queue) {
 		TreeNode<T> temp = queue.remove();
-		if(temp == null) {
+		if (temp == null) {
 			return;
 		}
 		System.out.print(temp + " ");
@@ -143,38 +146,40 @@ public class BinaryTree<T extends Comparable<T>> {
 
 	/**
 	 * Method to remove node from a tree
+	 *
 	 * @param key is the value being removed from tree. If there are multiple, only the first instance is returned
 	 */
 	public boolean remove(T key) {
-		AtomicBoolean removed = new AtomicBoolean(false);
-		remove(root, key, removed); //Start at root, as always
-		return removed.get();
+		AtomicBoolean isRemoved = new AtomicBoolean(false);
+		remove(root, key, isRemoved); //Start at root, as always
+		return isRemoved.get();
 	}
 
 	/**
-	 * Recursive method to remove node from a tree. Replaces removed node with
-	 * @param current
-	 * @param key
-	 * @return
+	 * Recursive method to remove node from a tree. Replaces isRemoved node with
+	 *
+	 * @param current subtree root
+	 * @param key     of node being removed
+	 * @return whether a node is removed or not
 	 */
-	private TreeNode<T> remove(TreeNode<T> current, T key, AtomicBoolean removed) {
-		if(current == null) { //If go beyond leaf, key is not found and nothing is removed.
+	private TreeNode<T> remove(TreeNode<T> current, T key, AtomicBoolean isRemoved) {
+		if (current == null) { //If go beyond leaf, key is not found and nothing is isRemoved.
 			return null;
 		}
-		if(key.compareTo(current.getData()) > 0) {
-			current.setRight(remove(current.getRight(), key, removed)); //Move to right subtree
-		} else if(key.compareTo(current.getData()) < 0) {
-			current.setLeft(remove(current.getLeft(), key, removed)); //Move to left subtree
-		} else{ //If current == data
-			removed.set(true);
-			if(current.isLeaf()) { //If node is leaf, then just erase current
+		if (key.compareTo(current.getData()) > 0) {
+			current.setRight(remove(current.getRight(), key, isRemoved)); //Move to right subtree
+		} else if (key.compareTo(current.getData()) < 0) {
+			current.setLeft(remove(current.getLeft(), key, isRemoved)); //Move to left subtree
+		} else { //If current == data
+			isRemoved.set(true);
+			if (current.isLeaf()) { //If node is leaf, then just erase current
 				current = null;
-			} else if(current.getRight() != null) { //Prioritize right subtree
-				current.setData(successor(current)); //Replace data with next smallest data
-				current.setRight(remove(current.getRight(), current.getData(),removed)); //Recursively remove successor
+			} else if (current.getRight() != null) { //Prioritize right subtree
+				current.setData(getSuccessor(current).getData()); //Replace data with next smallest data
+				current.setRight(remove(current.getRight(), current.getData(), isRemoved)); //Recursively remove successor
 			} else {
-				current.setData(predecessor(current)); //Replace data with previous biggest data
-				current.setLeft(remove(current.getLeft(), current.getData(),removed)); //Recursively remove predecessor
+				current.setData(getPredecessor(current).getData()); //Replace data with previous biggest data
+				current.setLeft(remove(current.getLeft(), current.getData(), isRemoved)); //Recursively remove predecessor
 			}
 		}
 		return current;
@@ -182,43 +187,52 @@ public class BinaryTree<T extends Comparable<T>> {
 
 	/**
 	 * Finds the next smallest data from the right subtree
+	 *
 	 * @param currentRoot is subtree root
 	 * @return data from left-most leaf subtree
 	 */
-	private T successor(TreeNode<T> currentRoot) {
+	public TreeNode<T> getSuccessor(TreeNode<T> currentRoot) {
 		currentRoot = currentRoot.getRight();
-		while(currentRoot.getLeft() != null) {
+		if (currentRoot == null) {
+			return null;
+		}
+		while (currentRoot.getLeft() != null) {
 			currentRoot = currentRoot.getLeft();
 		}
-		return currentRoot.getData();
+		return currentRoot;
 	}
 
 	/**
 	 * Finds the previous biggest data from the left subtree
+	 *
 	 * @param currentRoot is subtree root
 	 * @return data from right-most leaf of subtree
 	 */
-	private T predecessor(TreeNode<T> currentRoot) {
+	private TreeNode<T> getPredecessor(TreeNode<T> currentRoot) {
 		currentRoot = currentRoot.getLeft();
-		while(currentRoot.getRight() != null) {
+		if (currentRoot == null) {
+			return null;
+		}
+		while (currentRoot.getRight() != null) {
 			currentRoot = currentRoot.getRight();
 		}
-		return currentRoot.getData();
+		return currentRoot;
 	}
 
 	/**
 	 * Find parent of a node
+	 *
 	 * @param key is a child node
 	 * @return the parent of child node
 	 */
 	public TreeNode<T> getParent(T key) {
 		TreeNode<T> parent = null;
 		TreeNode<T> current = root;
-		while(current != null) {
-			if(key.compareTo(current.getData()) == 0) {
+		while (current != null) {
+			if (key.compareTo(current.getData()) == 0) {
 				return parent;
 			}
-			if(key.compareTo(current.getData()) < 0) {
+			if (key.compareTo(current.getData()) < 0) {
 				parent = current;
 				current = current.getLeft();
 			} else {
@@ -231,19 +245,20 @@ public class BinaryTree<T extends Comparable<T>> {
 
 	/**
 	 * Recursive method to find parent of a node
-	 * @param parent is the parent of the current node
+	 *
+	 * @param parent  is the parent of the current node
 	 * @param current is a child node being processed
-	 * @param key is the value of a child node that is being looked for
+	 * @param key     is the value of a child node that is being looked for
 	 * @return the parent of the child node. Returns null if the child does not exist, or if child node is root
 	 */
 	private TreeNode<T> getParent(TreeNode<T> parent, TreeNode<T> current, T key) {
-		if(current == null) {
+		if (current == null) {
 			return null;
 		}
-		if(current.getData().compareTo(key) == 0) {
+		if (current.getData().compareTo(key) == 0) {
 			return parent;
 		}
-		if(key.compareTo(current.getData()) < 0) {
+		if (key.compareTo(current.getData()) < 0) {
 			return getParent(current, current.getLeft(), key);
 		} else {
 			return getParent(current, current.getRight(), key);
@@ -251,35 +266,120 @@ public class BinaryTree<T extends Comparable<T>> {
 	}
 
 	public boolean removeIterative(T key) {
-		TreeNode<T> bantu = getNode(key);
-		if(bantu == null) {
+		TreeNode<T> helperNode = getNode(key);
+		if (helperNode == null) {
 			return false;
 		}
-		if(bantu.compareTo(root) == 0) {
-			if(bantu.isLeaf()){
+		if (helperNode.compareTo(root) == 0) {
+			if (helperNode.isLeaf()) {
 				root = null;
-			} else if(bantu.getRight() == null) {
-				root = bantu.getLeft();
+			} else if (helperNode.getRight() == null) {
+				root = helperNode.getLeft();
 			} else {
-				root = bantu.getRight();
+				root = helperNode.getRight();
 			}
 		} else {
 			TreeNode<T> parent = getParent(key);
-			if(key.compareTo(parent.getData()) < 0) {
-				if(bantu.isLeaf()) {
+			if (key.compareTo(parent.getData()) < 0) {
+				if (helperNode.isLeaf()) {
 					parent.setLeft(null);
-				} else if(bantu.getRight() == null) {
-					parent.setLeft(bantu.getLeft());
+				} else if (helperNode.getRight() == null) {
+					parent.setLeft(helperNode.getLeft());
 				} else {
-					parent.setLeft(bantu.getRight());
+					parent.setLeft(helperNode.getRight());
 				}
 			} else {
-				if(bantu.isLeaf()) {
+				if (helperNode.isLeaf()) {
 					parent.setRight(null);
-				} else if(bantu.getRight() == null) {
-					parent.setRight(bantu.getLeft());
+				} else if (helperNode.getRight() == null) {
+					parent.setRight(helperNode.getLeft());
+				} else if (helperNode.getLeft() == null) {
+					parent.setRight(helperNode.getRight());
 				} else {
+					TreeNode<T> predecessor = getPredecessor(helperNode);
+					TreeNode<T> parentPredecessor = getParent(predecessor.getData());
+					helperNode.setData(predecessor.getData());
+					if (parentPredecessor.compareTo(helperNode) == 0) {
+						parentPredecessor.setLeft(predecessor.getLeft());
+					} else if (parentPredecessor.getRight().isLeaf()) {
+						parentPredecessor.setRight(null);
+					} else {
+						parentPredecessor.setRight(predecessor.getLeft());
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	public boolean removeLongIterative(T key) {
+		TreeNode<T> bantu = getNode(key);
+		if (bantu == null) {
+			return false;
+		}
+		if (bantu.compareTo(root) == 0) {
+			if (bantu.isLeaf()) {
+				root = null;
+			} else if (bantu.getRight() == null) {
+				root = bantu.getLeft();
+			} else if (bantu.getLeft() == null) {
+				root = bantu.getRight();
+			} else {
+				TreeNode<T> predecessor = getPredecessor(bantu);
+				System.out.println(predecessor);
+				TreeNode<T> parentPredecessor = getParent(predecessor.getData());
+				bantu.setData(predecessor.getData());
+				if (parentPredecessor.compareTo(bantu) != 0) {
+					if (predecessor.getLeft() == null) {
+						parentPredecessor.setRight(predecessor.getLeft());
+					} else {
+						parentPredecessor.setRight(null);
+					}
+				}
+			}
+		} else {
+			TreeNode<T> parent = getParent(key);
+			if (key.compareTo(parent.getData()) < 0) {
+				if (bantu.isLeaf()) {
+					parent.setLeft(null);
+				} else if (bantu.getRight() == null) {
+					parent.setLeft(bantu.getLeft());
+				} else if (bantu.getLeft() == null) {
+					parent.setLeft(bantu.getRight());
+				} else {
+					TreeNode<T> predecessor = getPredecessor(bantu);
+					TreeNode<T> parentPredecessor = getParent(predecessor.getData());
+					bantu.setData(predecessor.getData());
+					if(parentPredecessor.compareTo(bantu) != 0) {
+						if(predecessor.getLeft() != null) {
+							parentPredecessor.setRight(predecessor.getLeft());
+						} else {
+							parentPredecessor.setRight(null);
+						}
+					} else {
+						bantu.setLeft(predecessor.getLeft());
+					}
+				}
+			} else {
+				if (bantu.isLeaf()) {
+					parent.setRight(null);
+				} else if (bantu.getRight() == null) {
+					parent.setRight(bantu.getLeft());
+				} else if (bantu.getLeft() == null) {
 					parent.setRight(bantu.getRight());
+				} else {
+					TreeNode<T> predecessor = getPredecessor(bantu);
+					TreeNode<T> parentPredecessor = getParent(predecessor.getData());
+					bantu.setData(predecessor.getData());
+					if (parentPredecessor.compareTo(bantu) != 0 ) {
+						if (predecessor.getLeft() != null) {
+							parentPredecessor.setRight(predecessor.getLeft());
+						} else {
+							parentPredecessor.setRight(null);
+						}
+					} else {
+						bantu.setLeft(predecessor.getLeft());
+					}
 				}
 			}
 		}
